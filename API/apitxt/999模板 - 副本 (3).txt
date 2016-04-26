@@ -1,0 +1,26 @@
+[api]
+[title]接口：模板格式无用[/title]
+[url]地址：http://127.0.0.1/index.php?g=app&m=login&a=index[/url]
+[arg]参数：[/arg]
+[get]get参数:[/get]
+[post]post参数:[/post]
+[return]
+	返回：token:用户token，id:用户id
+	role_id:角色名称ID：如果返回角色组和实际APP不符，请自行处理
+[/return]
+[json]json结构:
+<pre>
+{
+}
+</pre>
+[/json]
+[db]数据描述：http://127.0.0.1/t/mysql.php [/db]
+[php]
+代码块
+<pre>
+
+</pre>
+[/php]
+[notice]注意：
+[/notice]
+[/api]
