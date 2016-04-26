@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+body {
+	font-size: 14px;
+	line-height: 24px;
+}
+.api {
+	font-size: 14px;
+	padding: 10px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: dotted;
+	border-right-style: dotted;
+	border-bottom-style: dotted;
+	border-left-style: dotted;
+}
+.title {
+	font-size: 14px;
+	padding: 2px;
+	background-color: #FFF;
+	font-weight: bold;
+}
+.url {
+	font-size: 14px;
+	color: #00F;
+}
+.left {
+	min-width: 100px;
+	max-width: 200px;
+	width: 200px;
+	float: left;
+	overflow: scroll;
+	top: 0px;
+	position: fixed;
+	z-index: 999;
+	height: 100%;
+}
+.right {
+	position: relative;
+	width: 70%;
+	float: left;
+	padding-left: 200px;
+}
+.arg {
+	font-size: 14px;
+	color: #F00;
+}
+.php {
+	color: #0000B0;
+}
+.notice {
+	font-size: 12px;
+	font-weight: bold;
+	color: #F00;
+}
+
+pre {
+	margin: 30px;
+	border: 1px inset #666;
+}
+</style>
+</head>
+
+<body>
+<div class="left" id="A"></div>
+<div class="right">{$html}</div>
+<script>
+var title=window.document.getElementsByClassName("title");
+var left=window.document.getElementsByClassName("left");
+for(var i=0;i<title.length;i++)
+{
+	title[i].setAttribute("id","id"+i);
+	var pardiv=document.createElement("div");
+	var para=document.createElement("a");
+	para.setAttribute("href","#id"+i);
+	var txt=document.createTextNode(title[i].textContent);
+	para.appendChild(txt);
+	para.src="#id"+i;
+	pardiv.appendChild(para);
+	left[0].appendChild(pardiv);
+}
+var db=window.document.getElementsByClassName("db");
+for(var i=0;i<db.length;i++)
+{
+	
+}
+</script>
+</body>
+</html>
