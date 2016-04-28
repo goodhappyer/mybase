@@ -4,7 +4,7 @@
  * @author andery
  */
 class frontendbaseAction extends basecommonAction {
-	var $_search_field;
+	var $_search_field;/*要查找的字段like 多个字段用 |分开*/
 	protected $visitor = null;
 	public function _initialize() {
 		parent::_initialize ();
