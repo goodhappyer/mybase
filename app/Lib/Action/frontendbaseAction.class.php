@@ -4,6 +4,7 @@
  * @author andery
  */
 class frontendbaseAction extends basecommonAction {
+	var $_search_field;
 	protected $visitor = null;
 	public function _initialize() {
 		parent::_initialize ();
@@ -17,6 +18,64 @@ class frontendbaseAction extends basecommonAction {
 		{
 				$this->_init_visitor ();
 		}
+	}
+	/*自己生成查询*/
+	protected function _search() {
+		//生成查询条件
+		$mod = D($this->_name);
+		$map = array();
+		foreach ($mod->getDbFields() as $key => $val) {
+			if (substr($key, 0, 1) == '_') {
+				continue;
+			}
+			if (I($val)!=NULL)
+			{
+				$map[$val] = I($val);
+			}
+		}
+		if(I("keyword"))
+		{
+			$map[$this->_search_field]=array ( "LIKE", '%' . I("keyword") . '%', "OR");
+		}
+		return $map;
+	}
+	/*输出格式化日期 ，字段尾为time*/
+	protected function autotimeformat(&$r) {
+		if (is_array ( $r )) {
+			foreach ( $r as $k => $v ) {
+				/* 后面是time结尾，则自动转化时间 */
+				if (substr ( $k, strlen($k)-4,4 ) == 'time') {
+					if (is_numeric ( $v )) {
+						if($v>0)
+						{
+							$r [$k] = str_replace("00:00:00","", date ( "Y-m-d H:i:s", $v ));
+						}
+						else
+						{
+							$r[$k]='';
+						}
+					} else {
+						$this->autotimeformat ( $r [$k] );
+					}
+				} else {
+					$this->autotimeformat ( $r [$k] );
+				}
+			}
+		}
+	}
+	/*查找时间段*/
+	protected function _search_time($field)
+	{
+		$endtime=I("endtime")?I("endtime"):2147483646;
+		$endtime=$endtime+24*60*60-1;
+		$starttime=I("starttime")?I("starttime"):0;
+		if($endtime<$starttime)
+		{
+			$T=$starttime;
+			$starttime=$endtime;
+			$endtime=$T;
+		}
+		return array($field=>array("between",array($starttime,$endtime)));
 	}
 	/**
 	 * 输出前图片加网址

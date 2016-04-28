@@ -1,6 +1,6 @@
 <?php
 /**
- * 前台控制器基类,不要把业务逻辑写在这里
+ * 前台控制器基类,前端业务逻辑
  * @author andery
  */
 class frontendAction extends frontendbaseAction {
