@@ -3,23 +3,24 @@ class frontenditemAction extends frontendAction {
 	var $_name;
 	var $_mod;
 	var $_filed="*";
+	var $_pid_filed="typeid";
 	public function index()
 	{
-		if(!is_numeric(I("typeid")))
+		if(!is_numeric(I($_pid_filed)))
 		{
 			$typeid=0;
 		}
 		else 
 		{
-			$typeid=I("typeid");
+			$typeid=I($_pid_filed);
 		}
-		$r=$this->_mod->where(array("typeid"=>$typeid,"status"=>1))->field($this->_filed)->select();
+		$r=$this->_mod->where(array($_pid_filed=>$typeid,"status"=>1))->field($this->_filed)->select();
 		$this->json_echo ( 1, '列表成功！' ,$r);
 	}
 	public function show_all()
 	{
 		$T=array();
-		$T=$this->_mod->where(array("typeid"=>0,"status"=>1))->select();
+		$T=$this->_mod->where(array($_pid_filed=>0,"status"=>1))->select();
 		foreach($T as $k=>$v)
 		{
 			$this->get_next($v['id'],$T[$k]['item']);
@@ -28,7 +29,7 @@ class frontenditemAction extends frontendAction {
 	}
 	private function get_next($typeid,&$T=array())
 	{
-		$r=$this->_mod->where(array("typeid"=>$typeid,"status"=>1))->select();
+		$r=$this->_mod->where(array($_pid_filed=>$typeid,"status"=>1))->select();
 		if($r)
 		{
 			$T=$r;

@@ -8,13 +8,15 @@ class frontendh5pagelistAction extends frontendAction
 {
 	var $_name;
 	var $_mod;
-	var $search_field; /*LIKE要查找的字段*/
+	var $_search_field; /*LIKE要查找的字段*/
+	var $_content_field="info";
+	var $_sort_field="ordid";
 	public function index()
 	{
 		$p = I ( "p" ) ? I ( "p" ) : 0;
 		$map = $this->_search ();
 		$map['status']=1;
-		$r = $this->_mod->where ( $map )->field('info',true)->order ( "ordid" )->limit($p*20,20)->select ();
+		$r = $this->_mod->where ( $map )->field($this->_content_field,true)->order ( $this->_sort_field )->limit($p*20,20)->select ();
 		foreach ($r as $k=>$v)
 		{
 			$r[$k]["h5url"]="http://".$_SERVER['HTTP_HOST']."/index.php?g=app&m=".$this->_name."&a=show&id=".$v['id'];

@@ -37,7 +37,7 @@ class frontendbaseAction extends basecommonAction {
         }
         if(I("keyword"))
         {
-        	$map[$this->search_field]=array ( "LIKE", '%' . I("keyword") . '%', "OR");
+        	$map[$this->_search_field]=array ( "LIKE", '%' . I("keyword") . '%', "OR");
         }
         return $map;
     }
