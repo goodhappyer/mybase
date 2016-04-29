@@ -40,7 +40,7 @@ body,html
 }
 </style>
 </head><body>';
-		echo $r['info'];
+		echo $r[$this->_content_field];
 echo '</body>
 </html>';
 	}
