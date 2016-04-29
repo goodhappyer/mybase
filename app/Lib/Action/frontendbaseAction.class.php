@@ -19,26 +19,28 @@ class frontendbaseAction extends basecommonAction {
 				$this->_init_visitor ();
 		}
 	}
-	/*自己生成查询*/
-	protected function _search() {
-		//生成查询条件
-		$mod = D($this->_name);
-		$map = array();
-		foreach ($mod->getDbFields() as $key => $val) {
-			if (substr($key, 0, 1) == '_') {
-				continue;
-			}
-			if (I($val)!=NULL)
-			{
-				$map[$val] = I($val);
-			}
-		}
-		if(I("keyword"))
-		{
-			$map[$this->_search_field]=array ( "LIKE", '%' . I("keyword") . '%', "OR");
-		}
-		return $map;
-	}
+    /**
+     * 获取请求参数生成条件数组
+     */
+    protected function _search() {
+        //生成查询条件
+        $mod = D($this->_name);
+        $map = array();
+        foreach ($mod->getDbFields() as $key => $val) {
+            if (substr($key, 0, 1) == '_') {
+                continue;
+            }
+            if (I($val)!=NULL)
+            {
+                $map[$val] = I($val);
+            }
+        }
+        if(I("keyword"))
+        {
+        	$map[$this->search_field]=array ( "LIKE", '%' . I("keyword") . '%', "OR");
+        }
+        return $map;
+    }
 	/*输出格式化日期 ，字段尾为time*/
 	protected function autotimeformat(&$r) {
 		if (is_array ( $r )) {
