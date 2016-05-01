@@ -24,7 +24,7 @@ class frontendbaseAction extends basecommonAction
 	/**
 	 * 获取请求参数生成条件数组
 	 */
-	protected function _search ()
+	protected function _search ($timefield)
 	{
 		// 生成查询条件
 		$mod = D($this->_name);
@@ -44,10 +44,23 @@ class frontendbaseAction extends basecommonAction
 		{
 			$map[$this->_search_field] = array ("LIKE" ,'%' . I("keyword") . '%' ,"OR");
 		}
+		if($timefield)
+		{
+			$endtime = I("endtime") ? I("endtime") : 2147483646;
+                	$endtime = $endtime + 24 * 60 * 60 - 1;
+                	$starttime = I("starttime") ? I("starttime") : 0;
+                	if ($endtime < $starttime)
+                	{
+                        	$T = $starttime;
+                        	$starttime = $endtime;
+                        	$endtime = $T;
+                	}
+                	$map[$timefield] = array ("between" ,array ($starttime ,$endtime));
+		}
 		return $map;
 	}
 	/* 输出格式化日期 ，字段尾为time */
-	protected function autotimeformat (&$r)
+	protected function _auto_time_format (&$r)
 	{
 		if (is_array($r))
 		{
@@ -78,20 +91,6 @@ class frontendbaseAction extends basecommonAction
 				}
 			}
 		}
-	}
-	/* 查找时间段 */
-	protected function _search_time ($field)
-	{
-		$endtime = I("endtime") ? I("endtime") : 2147483646;
-		$endtime = $endtime + 24 * 60 * 60 - 1;
-		$starttime = I("starttime") ? I("starttime") : 0;
-		if ($endtime < $starttime)
-		{
-			$T = $starttime;
-			$starttime = $endtime;
-			$endtime = $T;
-		}
-		return array ($field => array ("between" ,array ($starttime ,$endtime)));
 	}
 
 	/**
@@ -139,11 +138,15 @@ class frontendbaseAction extends basecommonAction
 	 *        	必须是数组
 	 *        	
 	 */
-	public function json_echo ($code = 0, $msg = '', $result = array(), $have_img = 0)
+	public function json_echo ($code = 0, $msg = '', $result = array(), $have_img = 0,$have_time)
 	{
 		if ($have_img)
 		{
 			$this->_add_http_imgage($result);
+		}
+		if($have_time)
+		{
+			$this->_auto_time_format($result);
 		}
 		$arr = array ("code" => $code ,"msg" => $msg ,"result" => $result);
 		echo json_encode($arr);
